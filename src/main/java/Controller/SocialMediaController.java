@@ -41,6 +41,7 @@ public class SocialMediaController {
         app.post("/register", this::postRegisterAccountHandler);
         app.post("/login", this::postLoginAccountHandler);
         app.post("/messages", this::postCreateMessageHandler);
+        app.get("/messages", this::getAllMessagesHandler);
 
         return app;
     }
@@ -100,6 +101,16 @@ public class SocialMediaController {
             ctx.json(mapper.writeValueAsString(addedMessage));
         else
             ctx.status(400);
+    }
+
+    /**
+     * Handler to retrieve all messages
+     * The API returns status code 200
+     * @param ctx the context object
+     */
+    private void getAllMessagesHandler(Context ctx)
+    {
+        ctx.json(messageService.getAllMessages());
     }
 
 }
