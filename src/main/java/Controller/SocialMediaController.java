@@ -27,7 +27,7 @@ public class SocialMediaController {
     public SocialMediaController()
     {
         this.accountService = new AccountService();
-        this.messageService = new MessageService();
+        this.messageService = new MessageService(accountService);
     }
 
     /**
@@ -40,6 +40,7 @@ public class SocialMediaController {
         app.get("example-endpoint", this::exampleHandler);
         app.post("/register", this::postRegisterAccountHandler);
         app.post("/login", this::postLoginAccountHandler);
+        app.post("/messages", this::postCreateMessageHandler);
 
         return app;
     }
@@ -85,5 +86,20 @@ public class SocialMediaController {
             ctx.status(401);
     }
 
-    
+    /**
+     * Handler to create a mesage
+     * The API returns 400 when MessageService returns null
+     * @param ctx the context object
+     */
+    private void postCreateMessageHandler(Context ctx) throws JsonProcessingException
+    {
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(ctx.body(), Message.class);
+        Message addedMessage = messageService.addMessage(message);
+        if(addedMessage != null)
+            ctx.json(mapper.writeValueAsString(addedMessage));
+        else
+            ctx.status(400);
+    }
+
 }

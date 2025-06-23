@@ -26,11 +26,20 @@ public class AccountService {
     }
 
     /**
-     * Retrieve user account
+     * Retrieve user account with username and password
      * @return user account
      */
     public Account getAccount(Account account)
     {
         return accountDAO.getAccount(account.getUsername(), account.getPassword());
+    }
+
+    /**
+     * Retreive user account with account ID
+     * @return user account
+     */
+    public Account getAccount(int accountId)
+    {
+        return accountDAO.getAccount(accountId);
     }
 }
