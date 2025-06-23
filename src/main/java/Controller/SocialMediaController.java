@@ -54,6 +54,7 @@ public class SocialMediaController {
 
     /**
      * Handler to create a new Account
+     * The API returns 400 when AccountService returns null
      * @param ctx the context object
      * @throws JsonProcessingException thrown when issue converting JSON to object
      */
@@ -70,6 +71,7 @@ public class SocialMediaController {
 
     /**
      * Handler to login to account
+     * The API returns 401 when AccountService returns null
      * @param ctx the context object
      */
     private void postLoginAccountHandler(Context ctx) throws JsonProcessingException
@@ -83,5 +85,5 @@ public class SocialMediaController {
             ctx.status(401);
     }
 
-
+    
 }

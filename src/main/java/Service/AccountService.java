@@ -3,8 +3,6 @@ package Service;
 import Model.Account;
 import DAO.AccountDAO;
 
-import java.util.List;
-
 public class AccountService {
     
     private AccountDAO accountDAO;
@@ -14,13 +12,17 @@ public class AccountService {
     }
 
     /**
-     * Persists the account
+     * Persists the account and checks if account exists, has a non-empty username, and length greater than 3
      * @param account an account object
-     * @return The persisted account if successful
+     * @return The persisted account if successful and null otherwise
      */
     public Account addAccount(Account account)
     {
-        return accountDAO.insertAccount(account);
+        if(!account.getUsername().equals("") 
+            && account.getPassword().length() > 3 
+            && getAccount(account) == null)
+            return accountDAO.insertAccount(account);
+        return null;
     }
 
     /**

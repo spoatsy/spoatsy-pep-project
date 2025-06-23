@@ -15,9 +15,6 @@ public class AccountDAO {
      */
     public Account insertAccount(Account account)
     {
-        if(!account.getUsername().equals("") && account.getPassword().length() > 3 
-            && getAccount(account.getUsername(), account.getPassword()) == null)
-        {
             Connection connection = ConnectionUtil.getConnection();
             try {
                 String sql = "insert into account (username, password) values (?,?);";
@@ -35,7 +32,6 @@ public class AccountDAO {
             } catch(SQLException e) {
                 System.out.println(e.getMessage());
             }
-        }
         return null;
     }
     
