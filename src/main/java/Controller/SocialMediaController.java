@@ -42,6 +42,7 @@ public class SocialMediaController {
         app.post("/login", this::postLoginAccountHandler);
         app.post("/messages", this::postCreateMessageHandler);
         app.get("/messages", this::getAllMessagesHandler);
+        app.get("/messages/{message_id}", this::getMessageByIdHandler);
 
         return app;
     }
@@ -113,4 +114,16 @@ public class SocialMediaController {
         ctx.json(messageService.getAllMessages());
     }
 
+    /**
+     * Handler to retrieve a message by its ID
+     * The API returns status code 200
+     * @param ctx the context object
+     */
+    private void getMessageByIdHandler(Context ctx)
+    {
+        int messageId = Integer.parseInt(ctx.pathParam("message_id"));
+        Message message = messageService.getMessageById(messageId);
+        if(message != null)
+            ctx.json(message);
+    }
 }
