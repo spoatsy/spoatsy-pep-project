@@ -90,4 +90,25 @@ public class MessageDAO {
         }
         return null;
     }
+
+        /**
+     * Deletes a message in the message table by the provided ID
+     * @return the number of messages deleted (maximum of 1 for this database setup)
+     */
+    public int deleteMessageById(int messageId)
+    {
+        Connection connection = ConnectionUtil.getConnection();
+        try {
+            String sql = "delete from message where message_id = ?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, messageId);
+            return preparedStatement.executeUpdate();
+        } catch(SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return -1;
+    }
+    
+    
 }
