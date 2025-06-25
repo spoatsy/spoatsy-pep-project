@@ -44,6 +44,7 @@ public class SocialMediaController {
         app.get("/messages", this::getAllMessagesHandler);
         app.get("/messages/{message_id}", this::getMessageByIdHandler);
         app.delete("/messages/{message_id}", this::deleteMessageByIdHandler);
+        app.patch("/messages/{message_id}", this::patchMessageByIdHandler);
 
         return app;
     }
@@ -139,5 +140,23 @@ public class SocialMediaController {
         Message deletedMessage = messageService.deleteMessageById(messageId);
         if(deletedMessage != null)
             ctx.json(deletedMessage);
+    }
+
+    /**
+     * Handler to patch a message text identified by its ID. Any other provided information is ignored.
+     * The API returns status code 200 on success and 400 otherwise
+     * @param ctx the context object
+     */
+    private void patchMessageByIdHandler(Context ctx) throws JsonProcessingException
+    {
+        int messageId = Integer.parseInt(ctx.pathParam("message_id"));
+
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(ctx.body(), Message.class);
+        Message patchedMessage = messageService.patchMessageById(messageId, message.getMessage_text());
+        if(patchedMessage != null)
+            ctx.json(mapper.writeValueAsString(patchedMessage));
+        else
+            ctx.status(400);
     }
 }

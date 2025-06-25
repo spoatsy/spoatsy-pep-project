@@ -47,7 +47,7 @@ public class MessageService {
     }
     
         
-        /**
+    /**
      * @return Deleted message if message existed, otherwise null
      */
     public Message deleteMessageById(int messageId)
@@ -57,9 +57,22 @@ public class MessageService {
             return message;
         return null;
     }
-    
-    
-    
-    
-    
+
+    /**
+     * @return Full updated message if successful, otherwise null
+     */
+    public Message patchMessageById(int messageId, String messageText)
+    {
+        if(!messageText.equals("") && messageText.length() < 256)
+        {
+            Message message = messageDAO.getMessageById(messageId);
+            if(message != null)
+            {
+                if(messageDAO.patchMessageById(messageId, messageText) > 0)
+                    return messageDAO.getMessageById(messageId);
+            }
+        }
+        return null;
+    }
+
 }

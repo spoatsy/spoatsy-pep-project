@@ -91,7 +91,7 @@ public class MessageDAO {
         return null;
     }
 
-        /**
+    /**
      * Deletes a message in the message table by the provided ID
      * @return the number of messages deleted (maximum of 1 for this database setup)
      */
@@ -109,6 +109,26 @@ public class MessageDAO {
         }
         return -1;
     }
-    
+
+    /** 
+     * Patch a message provided its message ID to the provided text, messageText
+     * @return the message following the update, otherwise null when not successful
+     */
+    public int patchMessageById(int messageId, String messageText)
+    {
+        Connection connection = ConnectionUtil.getConnection();
+        try {
+            String sql = "update message set message_text = ? where message_id = ?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, messageText);
+            preparedStatement.setInt(2, messageId);
+
+            return preparedStatement.executeUpdate();
+        } catch(SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return -1;
+    }
     
 }
