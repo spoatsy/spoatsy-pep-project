@@ -75,4 +75,11 @@ public class MessageService {
         return null;
     }
 
+    /**
+     * @return a List of messages retrieved from the database for a given account ID
+     */
+    public List<Message> getAllMessagesByAccountId(int accountId)
+    {
+        return messageDAO.getAllMessagesByAccountId(accountId);
+    }
 }
